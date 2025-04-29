@@ -127,6 +127,7 @@ void RC_Channel_Copter::init_aux_function(const aux_func_t ch_option, const AuxS
     case AUX_FUNC::FORCEFLYING:
     case AUX_FUNC::CUSTOM_CONTROLLER:
     case AUX_FUNC::WEATHER_VANE_ENABLE:
+    case AUX_FUNC::SHIFT_CRUISE:
         run_aux_function(ch_option, ch_flag, AuxFuncTriggerSource::INIT);
         break;
     default:
@@ -308,6 +309,11 @@ bool RC_Channel_Copter::do_aux_function(const aux_func_t ch_option, const AuxSwi
             do_aux_function_change_mode(Mode::Number::LOITER, ch_flag);
             break;
 
+        case AUX_FUNC::SHIFT_CRUISE:
+            // enable or disable shift cruise
+            do_aux_function_change_cruise_state(ch_flag);
+            break;
+
         case AUX_FUNC::FOLLOW:
             do_aux_function_change_mode(Mode::Number::FOLLOW, ch_flag);
             break;
@@ -452,7 +458,7 @@ bool RC_Channel_Copter::do_aux_function(const aux_func_t ch_option, const AuxSwi
                 }
 #endif
             break;
-
+        
         case AUX_FUNC::WINCH_CONTROL:
             // do nothing, used to control the rate of the winch and is processed within AP_Winch
             break;
@@ -510,7 +516,7 @@ bool RC_Channel_Copter::do_aux_function(const aux_func_t ch_option, const AuxSwi
         case AUX_FUNC::ALTHOLD:
             do_aux_function_change_mode(Mode::Number::ALT_HOLD, ch_flag);
             break;
-
+        
 
         case AUX_FUNC::ACRO:
 #if MODE_ACRO_ENABLED == ENABLED
@@ -617,7 +623,7 @@ bool RC_Channel_Copter::do_aux_function(const aux_func_t ch_option, const AuxSwi
                 copter.ap.armed_with_airmode_switch = true;
             }
             break;
-
+        
 #if AC_CUSTOMCONTROL_MULTI_ENABLED == ENABLED
         case AUX_FUNC::CUSTOM_CONTROLLER:
             copter.custom_control.set_custom_controller(ch_flag == AuxSwitchPos::HIGH);
@@ -676,6 +682,17 @@ void RC_Channel_Copter::do_aux_function_change_force_flying(const AuxSwitchPos c
     }
 }
 
+void RC_Channel_Copter::do_aux_function_change_cruise_state(const AuxSwitchPos ch_flag)
+{   
+    hal.console->printf("Cruise state\n");
+    switch (ch_flag) {
+    case AuxSwitchPos::HIGH:
+        copter.mode_loiter.set_cruise_state(true);
+        break;
+    default:
+        copter.mode_loiter.set_cruise_state(false);
+    }
+}
 // save_trim - adds roll and pitch trims from the radio to ahrs
 void Copter::save_trim()
 {

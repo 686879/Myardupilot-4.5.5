@@ -20,7 +20,7 @@ private:
                                      const AuxSwitchPos ch_flag);
     void do_aux_function_change_air_mode(const AuxSwitchPos ch_flag);
     void do_aux_function_change_force_flying(const AuxSwitchPos ch_flag);
-
+    void do_aux_function_change_cruise_state(const AuxSwitchPos ch_flag);
     // called when the mode switch changes position:
     void mode_switch_changed(modeswitch_pos_t new_pos) override;
 

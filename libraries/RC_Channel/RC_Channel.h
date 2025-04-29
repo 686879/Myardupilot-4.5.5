@@ -282,9 +282,9 @@ public:
         SCRIPTING_6 =        305,
         SCRIPTING_7 =        306,
         SCRIPTING_8 =        307,
-
+        SHIFT_CRUISE=        220, // shift cruise throttle (Rover)
         // this must be higher than any aux function above
-        AUX_FUNCTION_MAX =   308,
+        AUX_FUNCTION_MAX =   309,
     };
     typedef enum AUX_FUNC aux_func_t;
 

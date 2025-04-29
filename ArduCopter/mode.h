@@ -95,7 +95,7 @@ public:
         AUTOROTATE =   26,  // Autonomous autorotation
         AUTO_RTL =     27,  // Auto RTL, this is not a true mode, AUTO will report as this mode if entered to perform a DO_LAND_START Landing sequence
         TURTLE =       28,  // Flip over after crash
-        TOP    =       29,  // ÔÚ²ÎÊýÊ÷ÖÐ´«½øÀ´
+        TOP    =       29,  // ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½
 
         // Mode number 127 reserved for the "drone show mode" in the Skybrush
         // fork at https://github.com/skybrush-io/ardupilot
@@ -377,7 +377,7 @@ public:
     // end pass-through functions
 };
 
-//TOPÀàµÄ¶¨Òå
+//TOPï¿½ï¿½Ä¶ï¿½ï¿½ï¿½
 #if MODE_TOP_ENABLED == ENABLED
 class ModeTop : public Mode {
 
@@ -1275,7 +1275,7 @@ public:
     bool is_autopilot() const override { return false; }
     bool has_user_takeoff(bool must_navigate) const override { return true; }
     bool allows_autotune() const override { return true; }
-
+    bool set_cruise_state(bool cruise_state);
 #if AC_PRECLAND_ENABLED
     void set_precision_loiter_enabled(bool value) { _precision_loiter_enabled = value; }
 #endif
@@ -1300,6 +1300,8 @@ private:
     bool _precision_loiter_enabled;
     bool _precision_loiter_active; // true if user has switched on prec loiter
 #endif
+    bool _cruise_state; 
+    Vector3f _current_vel;
 
 };
 
